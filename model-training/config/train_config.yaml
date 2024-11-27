@@ -1,0 +1,32 @@
+dataset:
+  yaml_path: 'datasets/vehicle_pose.yaml'  # Path to dataset configuration
+
+training:
+  epochs: 100
+  image_size: 640
+  batch_size: 16
+  device: 'cuda:0'  # or 'cpu' if no GPU available
+  num_workers: 8
+  
+  # Optimizer settings
+  optimizer: 'AdamW'
+  learning_rate: 0.001
+  weight_decay: 0.0005
+  
+  # Training schedule
+  warmup_epochs: 3
+  close_mosaic: 10
+  
+  # Loss weights
+  box_loss_weight: 7.5
+  cls_loss_weight: 0.5
+  dfl_loss_weight: 1.5
+  pose_loss_weight: 12.0
+  kpt_obj_weight: 2.0
+
+validation:
+  batch_size: 16
+  image_size: 640
+  device: 'cuda:0'
+
+save_dir: 'runs/train'  # Directory to save training results

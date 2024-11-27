@@ -1,0 +1,74 @@
+# Advanced Data Augmentation Configuration for Vehicle Pose Detection
+
+# Geometric Transformations
+mosaic: 1.0  # Mosaic augmentation (0-1)
+mixup: 0.15  # Mixup augmentation (0-1)
+copy_paste: 0.3  # Copy-paste augmentation (0-1)
+degrees: 10.0  # Image rotation (+/- deg)
+translate: 0.2  # Image translation (+/- fraction)
+scale: 0.3  # Image scale (+/- gain)
+shear: 2.0  # Image shear (+/- deg)
+perspective: 0.001  # Image perspective (+/- fraction)
+flip_ud: 0.0  # Image flip up-down (probability)
+flip_lr: 0.5  # Image flip left-right (probability)
+
+# Color/Intensity Augmentations
+hsv_h: 0.015  # Image HSV-Hue augmentation (fraction)
+hsv_s: 0.7  # Image HSV-Saturation augmentation (fraction)
+hsv_v: 0.4  # Image HSV-Value augmentation (fraction)
+brightness: 0.2  # Brightness adjustment range
+contrast: 0.2  # Contrast adjustment range
+saturation: 0.2  # Saturation adjustment range
+hue: 0.015  # Hue adjustment range
+
+# Environmental Augmentations
+weather_effects:
+  rain: 0.1  # Rain effect probability
+  snow: 0.05  # Snow effect probability
+  fog: 0.1  # Fog effect probability
+  shadow: 0.2  # Shadow effect probability
+
+# Noise and Blur
+gaussian_noise: 0.1  # Gaussian noise probability
+motion_blur: 0.1  # Motion blur probability
+gaussian_blur: 0.1  # Gaussian blur probability
+jpeg_compression: 0.2  # JPEG compression probability
+
+# Occlusion and Masking
+random_erase: 0.3  # Random erasing probability
+grid_mask: 0.3  # Grid mask probability
+cutout: 0.3  # Cutout probability
+
+# Vehicle-Specific Augmentations
+vehicle_occlusion: 0.3  # Vehicle partial occlusion
+vehicle_truncation: 0.2  # Vehicle truncation at image edges
+vehicle_pose_jitter: 0.1  # Small random jitter in keypoint positions
+
+# Time of Day Simulation
+lighting_variation:
+  day: 0.4
+  night: 0.3
+  dawn_dusk: 0.3
+
+# Camera Effects
+camera_effects:
+  defocus_blur: 0.1
+  motion_blur: 0.1
+  iso_noise: 0.1
+
+# Advanced Techniques
+multi_scale: True  # Enable multi-scale training
+anchor_threshold: 4.0  # IOU threshold for anchor assignment
+balance_sampling: True  # Balance sampling across different poses
+mosaic9: 0.2  # 9-image mosaic probability
+
+# Keypoint-Specific
+keypoint_visibility: 0.1  # Random keypoint visibility dropout
+keypoint_jitter: 0.02  # Random jitter in keypoint positions
+keypoint_occlusion: 0.1  # Random keypoint occlusion
+
+# Validation Augmentation
+val_augment:
+  enabled: True
+  resize_mode: 'letterbox'  # letterbox, stretch, or square
+  stride: 32  # Stride for network architecture compatibility

@@ -1,0 +1,53 @@
+# Vehicle Pose Dataset Configuration
+path: /Users/alanmliang/Desktop/Parking-Database/model-training/datasets/vehicle_pose  # dataset root dir
+train: images/train  # train images (relative to 'path')
+val: images/val  # val images (relative to 'path')
+test: images/test  # test images (optional)
+
+# Classes
+names:
+  0: vehicle
+
+# Keypoints
+kpt_shape: [9, 3]  # number of keypoints, number of dims (x,y,visible)
+flip_idx: []  # no keypoint flipping for vehicles as they are asymmetric
+
+# Keypoint names and connections
+keypoints:
+  0: front_bumper_center  # Front bumper center
+  1: rear_bumper_center   # Rear bumper center
+  2: front_left_wheel     # Front left wheel
+  3: front_right_wheel    # Front right wheel
+  4: rear_left_wheel      # Rear left wheel
+  5: rear_right_wheel     # Rear right wheel
+  6: left_mirror          # Left mirror
+  7: right_mirror         # Right mirror
+  8: roof_center          # Roof center
+
+# Skeleton - keypoint connections for visualization
+skeleton:
+  - [0, 1]  # Front to rear bumper
+  - [2, 3]  # Front wheels
+  - [4, 5]  # Rear wheels
+  - [2, 4]  # Left side wheels
+  - [3, 5]  # Right side wheels
+  - [6, 7]  # Mirrors
+  - [6, 8]  # Left mirror to roof
+  - [7, 8]  # Right mirror to roof
+  - [0, 8]  # Front bumper to roof
+  - [1, 8]  # Rear bumper to roof
+
+# Dataset structure should be:
+# datasets/vehicle_pose/
+#   ├── images/
+#   │   ├── train/
+#   │   ├── val/
+#   │   └── test/
+#   └── labels/
+#       ├── train/
+#       ├── val/
+#       └── test/
+
+# Label format (YOLO format with keypoints):
+# One row per object
+# <class> <x_c> <y_c> <width> <height> <kp1_x> <kp1_y> <kp1_visible> ... <kp9_x> <kp9_y> <kp9_visible>

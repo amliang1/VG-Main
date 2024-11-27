@@ -1,0 +1,93 @@
+# YOLOv11-pose configuration for vehicle detection and pose estimation
+model:
+  name: yolov11-pose
+  backbone:
+    type: csp_darknet
+    depth_multiple: 0.33  # Scaled for Jetson
+    width_multiple: 0.25
+    activation: silu
+    focus: true
+
+  neck:
+    type: fpn_pan
+    depth_multiple: 0.33
+    width_multiple: 0.25
+    activation: silu
+    focus: true
+
+  head:
+    type: pose_head
+    num_classes: 1  # Vehicle only
+    num_keypoints: 9  # Key vehicle points
+    width_multiple: 0.25
+    activation: silu
+
+training:
+  epochs: 300
+  batch_size: 16
+  optimizer:
+    type: AdamW
+    lr: 0.001
+    weight_decay: 0.0005
+  scheduler:
+    type: cosine
+    T_max: 300
+    eta_min: 0.0001
+  augmentation:
+    mosaic: 1.0
+    mixup: 0.15
+    degrees: 10.0
+    translate: 0.2
+    scale: 0.5
+    shear: 2.0
+    perspective: 0.0
+    flipud: 0.5
+    fliplr: 0.5
+    hsv_h: 0.015
+    hsv_s: 0.7
+    hsv_v: 0.4
+
+dataset:
+  train: data/splits/train.txt
+  val: data/splits/val.txt
+  test: data/splits/test.txt
+  nc: 1  # number of classes
+  names: ['vehicle']
+  keypoints:
+    - front_bumper_center
+    - rear_bumper_center
+    - front_left_wheel
+    - front_right_wheel
+    - rear_left_wheel
+    - rear_right_wheel
+    - roof_front
+    - roof_rear
+    - center_mass
+
+device:
+  type: jetson
+  precision: fp16
+  memory_format: nchw
+  cudnn_benchmark: true
+  cudnn_deterministic: false
+
+export:
+  formats:
+    - tensorrt
+    - onnx
+  optimization:
+    precision: fp16
+    workspace_size: 4G
+    max_batch_size: 1
+    min_timing_iterations: 1
+    avg_timing_iterations: 8
+
+logging:
+  tensorboard: true
+  save_period: 10
+  log_artifacts: true
+  metrics:
+    - map
+    - precision
+    - recall
+    - fps
